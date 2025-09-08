@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medcare - Healthcare</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="logo">CARE4ME</div>
+    <div class="search-bar">
+      <input type="text" placeholder="Search">
+      <button>🔍</button>
+    </div>
+    <nav>
+      <a href="#">Health Meter</a>
+      <a href="#">Offers</a>
+      <a href="#">Cart</a>
+      <a href="#">Login</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>CARE4ME</h1>
+      <p class="tagline">Check your BP and Sugar and get help • No More Medications</p>
+      <p class="desc">
+        Medcare is a modern, user-friendly healthcare platform designed to bring essential medical services 
+        right to your fingertips. Our website helps patients connect with doctors, book consultations, order 
+        medicines, and schedule lab tests with ease. With a clean, professional, and accessible design, 
+        Medcare ensures that healthcare is simple, reliable, and available anytime, anywhere.
+      </p>
+      <button class="btn">Book Consultation →</button>
+    </div>
+    <div class="hero-image">
+      <img src="https://cdn-icons-png.flaticon.com/512/387/387561.png" alt="Doctor">
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="services">
+    <div class="card green">
+      <h3>Instant Video Consultation</h3>
+      <p>Connect Within 60 Seconds.</p>
+    </div>
+    <div class="card yellow">
+      <h3>Find The Doctors Near You</h3>
+      <p>Confirmed Appointments.</p>
+    </div>
+    <div class="card pink">
+      <h3>24/7 Medicine</h3>
+      <p>Essentials At Your Doorstep.</p>
+    </div>
+    <div class="card blue">
+      <h3>Lab Tests</h3>
+      <p>Simple Pickup At Your Home.</p>
+    </div>
+  </section>
+
+  <!-- Appointment Consultation Section -->
+  <section class="consultation">
+    <h2>Book an appointment for an in-clinic consultation</h2>
+    <div class="specialties">
+      <button class="specialty active">
+        <img src="broken-bone.png" alt="Orthopedists">
+        <span>Orthopedists</span>
+      </button>
+      <button class="specialty">
+        <img src="obesity.png" alt="Obesity">
+        <span>Obesity</span>
+      </button>
+      <button class="specialty">
+        <img src="neck.png" alt="Neck pain">
+        <span>Neck pain</span>
+      </button>
+      <button class="specialty">
+        <img src="brain.png" alt="Neurology">
+        <span>Neurology</span>
+      </button>
+      <button class="specialty">
+        <img src="head.png" alt="Headache">
+        <span>Headache</span>
+      </button>
+      <button class="specialty">
+        <img src="shoulder.png" alt="Shoulder">
+        <span>Shoulder</span>
+      </button>
+      <button class="specialty">
+        <img src="eye.png" alt="Eye care">
+        <span>Eye care</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Health Meter Section -->
+  <section class="health-meter">
+    <h2>Health Meter – BP & Sugar Analyzer</h2>
+    <p>Check your Blood Pressure and Sugar Levels instantly and get quick health advice.</p>
+
+    <form id="healthForm">
+      <div class="form-group">
+        <label for="bp">Blood Pressure (mmHg):</label>
+        <input type="number" id="bp" placeholder="e.g. 120" required>
+      </div>
+
+      <div class="form-group">
+        <label for="sugar">Sugar Level (mg/dL):</label>
+        <input type="number" id="sugar" placeholder="e.g. 90" required>
+      </div>
+
+      <button type="submit" class="btn">Analyze</button>
+    </form>
+
+    <div id="result" class="result-box"></div>
+  </section>
+
+  <!-- Breathing Exercise Section -->
+<!-- Games Section -->
+<section class="games-section">
+  <!-- Breathing Game -->
+  <div class="game-box">
+    <h2>Relax & Breathe</h2>
+    <p>Start your guided inhaling and exhaling exercise.</p>
+    <a href="exhale.html" class="btn">Start Breathing Game →</a>
+  </div>
+
+  <!-- Mindfulness Game -->
+  <div class="game-box">
+    <h2>Clear Your Thoughts 💭</h2>
+    <p>A calming game where you click floating thoughts to let them go.</p>
+    <a href="gamevege.html" class="btn">Play Mindfulness Game →</a>
+  </div>
+</section>
+
+     
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
