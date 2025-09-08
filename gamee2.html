@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Health Adventure 🌱🧘</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
+    body {
+      background: linear-gradient(to bottom right, #a8edea, #fed6e3);
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      text-align: center;
+      font-size: 1.1em;
+      letter-spacing: 1px;
+    }
+    h1 { margin-bottom: 20px; }
+    .section { display: none; margin-top: 20px; }
+    .active { display: block; }
+    button {
+      margin: 10px;
+      padding: 12px 28px;
+      border: none;
+      border-radius: 25px;
+      background: linear-gradient(90deg, #6a82fb, #fc5c7d);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.1em;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      transition: transform 0.2s, box-shadow 0.2s, background 0.5s;
+      letter-spacing: 1px;
+    }
+    button:hover {
+      transform: scale(1.08) rotate(-2deg);
+      box-shadow: 0 6px 24px rgba(252,92,125,0.18);
+      background: linear-gradient(90deg, #fc5c7d, #6a82fb);
+    }
+    /* Floating thoughts */
+    .thought {
+      position: absolute;
+      background: rgba(255,255,255,0.8);
+      padding: 10px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      animation: float 10s linear infinite;
+      user-select: none;
+    }
+    @keyframes float {
+      from { transform: translateY(100vh); }
+      to { transform: translateY(-20vh); }
+    }
+    /* Journal */
+    textarea {
+      width: 80%;
+      height: 120px;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      outline: none;
+      resize: none;
+      font-size: 16px;
+    }
+    /* Drawing pad container */
+    #drawBg {
+      border-radius: 20px;
+      padding: 10px;
+      display: inline-block;
+      transition: background 1s;
+      margin-bottom: 10px;
+    }
+    #drawPad {
+      border:2px solid #aaa;
+      border-radius:16px;
+      background:#fff;
+      cursor:crosshair;
+      box-shadow:0 4px 24px rgba(106,130,251,0.12);
+    }
+    .food {
+      background: #fff;
+      border: 2px solid #bdbdbd;
+      border-radius: 18px;
+      padding: 8px 16px;
+      font-size: 1.1em;
+      cursor: grab;
+      box-shadow: 0 2px 8px #fbc02d22;
+      margin-bottom: 2px;
+      user-select: none;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .food:active {
+      background: #ffe082;
+      box-shadow: 0 4px 16px #fbc02d44;
+    }
+    #plate .food {
+      background: #fffde7;
+      border: 2px solid #fbc02d;
+      box-shadow: 0 2px 8px #fbc02d33;
+      margin: 2px;
+      cursor: default;
+    }
+    @keyframes popIn { 0%{transform:translate(-50%,-30%) scale(0.7);} 100%{transform:translate(-50%,0) scale(1);} }
+  </style>
+</head>
+<body>
+  <h1>🌱 Mental Health Adventure 🧘</h1>
+  <div>
+    <button onclick="startMindfulness()">Mindfulness</button>
+    <button onclick="showSection('draw')">Creativity</button>
+    <button onclick="showSection('meal')">Balanced Meal Game</button>
+  </div>
+  <!-- Balanced Meal Game (single, clean section) -->
+  <div id="meal" class="section">
+    <h2>Build a Balanced Meal 🥗</h2>
+    <div style="display:flex;justify-content:center;gap:30px;flex-wrap:wrap;align-items:flex-start;">
+      <div>
+        <h3>Foods</h3>
+        <div id="foods" style="display:flex;flex-direction:column;gap:10px;min-width:100px;">
+          <div class="food" draggable="true" data-group="protein">🍗 Chicken</div>
+          <div class="food" draggable="true" data-group="protein">🐟 Fish</div>
+          <div class="food" draggable="true" data-group="grain">🍚 Rice</div>
+          <div class="food" draggable="true" data-group="grain">🍞 Bread</div>
+          <div class="food" draggable="true" data-group="veg">🥦 Broccoli</div>
+          <div class="food" draggable="true" data-group="veg">🥕 Carrot</div>
+          <div class="food" draggable="true" data-group="fruit">🍎 Apple</div>
+          <div class="food" draggable="true" data-group="fruit">🍌 Banana</div>
+          <div class="food" draggable="true" data-group="dairy">🥛 Milk</div>
+          <div class="food" draggable="true" data-group="dairy">🧀 Cheese</div>
+          <div class="food" draggable="true" data-group="fat">🥑 Avocado</div>
+          <div class="food" draggable="true" data-group="fat">🥜 Nuts</div>
+          <div class="food" draggable="true" data-group="water">💧 Water</div>
+        </div>
+      </div>
+      <div>
+        <h3>Your Plate</h3>
+        <div id="plate" style="width:220px;height:220px;border-radius:50%;background:#fffbe7;border:4px solid #fbc02d;display:flex;flex-wrap:wrap;align-content:flex-start;justify-content:center;align-items:center;gap:8px;padding:12px;min-height:120px;box-shadow:0 2px 12px #fbc02d33;">
+          <span style="color:#bbb;font-size:1.1em;" id="plateHint">Drag foods here!</span>
+        </div>
+        <div id="portionMeter" style="width:220px;height:18px;background:#eee;border-radius:9px;margin:10px auto 0;overflow:hidden;box-shadow:0 1px 4px #fbc02d22;">
+          <div id="portionBar" style="height:100%;width:0%;background:#43a047;transition:width 0.5s,background 0.5s;"></div>
+        </div>
+        <div id="mealMsg" style="margin-top:10px;font-weight:bold;"></div>
+      </div>
+    </div>
+    <button onclick="resetMeal()">Reset Plate</button>
+    <p style="font-size:14px;color:#666;max-width:400px;margin:10px auto 0;">Try to include at least one protein, grain, vegetable, fruit, and dairy for a balanced meal. Watch your portions!</p>
+    <div id="factPopup" style="display:none;position:fixed;left:50%;top:20%;transform:translate(-50%,0);background:#fffbe7;border:2px solid #fbc02d;padding:18px 28px;border-radius:18px;box-shadow:0 4px 24px #fbc02d44;font-size:1.1em;z-index:9999;min-width:200px;text-align:center;animation:popIn 0.4s;">
+      <span id="factText"></span><br>
+      <button onclick="document.getElementById('factPopup').style.display='none'" style="margin-top:10px;">OK</button>
+    </div>
+  </div>
+
+
+
+  <!-- Creativity Drawing Pad -->
+  <div id="draw" class="section">
+    <h2>Express Yourself! 🎨</h2>
+    <div id="drawBg">
+      <canvas id="drawPad" width="320" height="320"></canvas>
+    </div>
+    <br>
+    <button onclick="clearPad()">Clear</button>
+    <button onclick="randomArt()">Surprise Me!</button>
+    <p style="font-size:14px; color:#666;">Draw or click 'Surprise Me' for random art!<br>Background color changes as you draw.</p>
+  </div>
+
+  <!-- Mindfulness -->
+  <div id="mindfulness" class="section">
+    <h2>Clear Your Thoughts 💭</h2>
+    <p>Click on floating thoughts to let them go...</p>
+  </div>
+
+  <!-- Journal -->
+  <div id="journal" class="section">
+    <h2>Daily Journal 📖</h2>
+    <textarea id="journalInput" placeholder="Write your thoughts..."></textarea>
+    <br>
+    <button onclick="saveJournal()">Save</button>
+    <p id="savedMsg" style="color:green; display:none;">✅ Saved!</p>
+  </div>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if(id === 'draw') setupPad();
+    }
+    // Drawing Pad
+    let isDrawing = false, lastX = 0, lastY = 0, ctx;
+    function setupPad() {
+      const canvas = document.getElementById('drawPad');
+      const bg = document.getElementById('drawBg');
+      if (!canvas) return;
+      ctx = canvas.getContext('2d');
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      canvas.onmousedown = e => { isDrawing = true; [lastX, lastY] = [e.offsetX, e.offsetY]; };
+      canvas.onmouseup = () => isDrawing = false;
+      canvas.onmouseout = () => isDrawing = false;
+      canvas.onmousemove = e => {
+        if (!isDrawing) return;
+        ctx.strokeStyle = `hsl(${(e.offsetX+e.offsetY)%360},80%,50%)`;
+        ctx.beginPath();
+        ctx.moveTo(lastX, lastY);
+        ctx.lineTo(e.offsetX, e.offsetY);
+        ctx.stroke();
+        [lastX, lastY] = [e.offsetX, e.offsetY];
+        // Animate background color
+        if(bg) bg.style.background = `linear-gradient(135deg, hsl(${e.offsetX%360},80%,90%), hsl(${e.offsetY%360},80%,95%))`;
+      };
+    }
+    function clearPad() {
+      const canvas = document.getElementById('drawPad');
+      const bg = document.getElementById('drawBg');
+      if (canvas) canvas.getContext('2d').clearRect(0,0,canvas.width,canvas.height);
+      if (bg) bg.style.background = '';
+    }
+    // Surprise Me: draw random lines and shapes
+    function randomArt() {
+      const canvas = document.getElementById('drawPad');
+      const bg = document.getElementById('drawBg');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      for(let i=0;i<20;i++){
+        ctx.strokeStyle = `hsl(${Math.random()*360},80%,50%)`;
+        ctx.beginPath();
+        ctx.moveTo(Math.random()*320, Math.random()*320);
+        ctx.lineTo(Math.random()*320, Math.random()*320);
+        ctx.stroke();
+      }
+      if(bg) bg.style.background = `linear-gradient(135deg, hsl(${Math.random()*360},80%,90%), hsl(${Math.random()*360},80%,95%))`;
+    }
+
+    // Mindfulness Game
+    function startMindfulness() {
+      showSection('mindfulness');
+      const container = document.getElementById('mindfulness');
+      container.querySelectorAll('.thought').forEach(t => t.remove()); // clear old
+      for (let i = 0; i < 5; i++) {
+        let thought = document.createElement('div');
+        thought.className = 'thought';
+        thought.innerText = "💭";
+        thought.style.left = Math.random() * 80 + "vw";
+        thought.style.top = "80vh";
+        thought.onclick = () => thought.remove();
+        container.appendChild(thought);
+      }
+    }
+
+    // Journal Save
+    function saveJournal() {
+      let text = document.getElementById("journalInput").value;
+      if (text.trim() !== "") {
+        localStorage.setItem("journal", text);
+        document.getElementById("savedMsg").style.display = "block";
+        setTimeout(()=>{document.getElementById("savedMsg").style.display="none";},2000);
+      }
+    }
+
+    // Load journal if saved
+    window.onload = () => {
+      let saved = localStorage.getItem("journal");
+      if (saved) document.getElementById("journalInput").value = saved;
+    }
+
+    // --- Balanced Meal Game Logic ---
+const foodFacts = {
+  '🍗 Chicken': 'Chicken is a great source of protein for muscle growth.',
+  '🐟 Fish': 'Fish provides protein and healthy omega-3 fats.',
+  '🍚 Rice': 'Rice is a carbohydrate that gives you energy.',
+  '🍞 Bread': 'Bread is a grain, best enjoyed whole grain for more fiber.',
+  '🥦 Broccoli': 'Broccoli is rich in vitamins and fiber.',
+  '🥕 Carrot': 'Carrots are high in vitamin A for healthy eyes.',
+  '🍎 Apple': 'Apples are a sweet source of fiber and vitamin C.',
+  '🍌 Banana': 'Bananas provide potassium for your muscles.',
+  '🥛 Milk': 'Milk is a good source of calcium for strong bones.',
+  '🧀 Cheese': 'Cheese gives you protein and calcium.',
+  '🥑 Avocado': 'Avocado is a healthy fat, good for your heart.',
+  '🥜 Nuts': 'Nuts are full of healthy fats and protein.',
+  '💧 Water': 'Water keeps you hydrated and helps your body function.'
+};
+
+function showFact(foodName) {
+  const fact = foodFacts[foodName] || 'A healthy choice!';
+  document.getElementById('factText').textContent = fact;
+  document.getElementById('factPopup').style.display = 'block';
+}
+
+function updatePortion() {
+  const plate = document.getElementById('plate');
+  const bar = document.getElementById('portionBar');
+  const count = plate.querySelectorAll('.food').length;
+  const percent = Math.min(100, count*100/8);
+  bar.style.width = percent+'%';
+  if (count <= 5) bar.style.background = '#43a047';
+  else if (count <= 8) bar.style.background = '#fbc02d';
+  else bar.style.background = '#e65100';
+}
+
+function resetMeal() {
+  const plate = document.getElementById('plate');
+  const foodsDiv = document.getElementById('foods');
+  plate.innerHTML = '<span style="color:#bbb;font-size:1.1em;" id="plateHint">Drag foods here!</span>';
+  document.getElementById('mealMsg').textContent = '';
+  updatePortion();
+}
+
+function checkMeal() {
+  const plate = document.getElementById('plate');
+  let groupsOnPlate = {};
+  plate.querySelectorAll('.food').forEach(f => {
+    groupsOnPlate[f.dataset.group] = true;
+  });
+  updatePortion();
+  const needed = ['protein','grain','veg','fruit','dairy'];
+  const missing = needed.filter(g => !groupsOnPlate[g]);
+  const mealMsg = document.getElementById('mealMsg');
+  const plateHint = document.getElementById('plateHint');
+  if (plate.querySelectorAll('.food').length === 0) {
+    mealMsg.textContent = '';
+    if (plateHint) plateHint.style.display = '';
+    return;
+  }
+  if (plateHint) plateHint.style.display = 'none';
+  if (missing.length === 0) {
+    mealMsg.textContent = 'Great job! Your meal is balanced! 🥇';
+    mealMsg.style.color = '#43a047';
+  } else {
+    mealMsg.textContent = 'Add: ' + missing.map(m => m.charAt(0).toUpperCase()+m.slice(1)).join(', ');
+    mealMsg.style.color = '#e65100';
+  }
+}
+
+// Drag-and-drop logic for meal game
+(function mealGameDragDrop() {
+  const foodsDiv = document.getElementById('foods');
+  const plate = document.getElementById('plate');
+
+  foodsDiv.querySelectorAll('.food').forEach(food => {
+    food.addEventListener('dragstart', function(e) {
+      e.dataTransfer.setData('food-name', food.innerText);
+      e.dataTransfer.setData('food-group', food.dataset.group);
+    });
+  });
+
+  plate.addEventListener('dragover', function(e) {
+    e.preventDefault();
+  });
+  plate.addEventListener('drop', function(e) {
+    e.preventDefault();
+    const foodName = e.dataTransfer.getData('food-name');
+    const foodGroup = e.dataTransfer.getData('food-group');
+    if (foodName && foodGroup) {
+      // Create a new food element for the plate
+      const foodEl = document.createElement('div');
+      foodEl.className = 'food';
+      foodEl.innerText = foodName;
+      foodEl.dataset.group = foodGroup;
+      foodEl.draggable = false;
+      foodEl.onclick = function() { showFact(foodName); };
+      plate.appendChild(foodEl);
+      checkMeal();
+      showFact(foodName);
+    }
+  });
+
+  // Allow clicking foods in the list to see facts
+  foodsDiv.querySelectorAll('.food').forEach(food => {
+    food.onclick = function() { showFact(food.innerText); };
+  });
+})();
+  </script>
+</body>
+</html>
