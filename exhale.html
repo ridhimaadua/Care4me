@@ -1,0 +1,287 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breathing Design</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #6d4ab3, #4a0d7e); /* Purple gradient */
+            overflow: hidden;
+            font-family: sans-serif;
+            color: white;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sky {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .cloud {
+            position: absolute;
+            width: 60px;
+            height: 30px;
+            background: #fff;
+            border-radius: 50px;
+            filter: brightness(1.1);
+            opacity: 0.8;
+        }
+
+        .star {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: none;
+        }
+        .star svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .sun-area {
+            position: relative;
+            width: 340px;
+            height: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+            transition: transform 2.5s cubic-bezier(.4,2,.6,1);
+            will-change: transform;
+        }
+        .sun-area.up {
+            transform: translateY(0px);
+        }
+        .sun-area.down {
+            transform: translateY(220px);
+        }
+
+        .face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .eyes {
+            display: flex;
+            justify-content: space-between;
+            width: 80px;
+            margin-bottom: 20px;
+        }
+
+        .eye {
+            width: 20px;
+            height: 4px;
+            background: #000;
+            border-radius: 50%;
+            transform: rotate(-10deg);
+        }
+
+        .eye.right {
+            transform: rotate(10deg);
+        }
+
+        .mouth {
+            width: 40px;
+            height: 20px;
+            border: 3px solid #000;
+            border-top: none;
+            border-radius: 0 0 40px 40px;
+            background: transparent;
+        }
+
+        .rings {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 340px;
+            height: 340px;
+            z-index: 1;
+        }
+        .ring {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            border-radius: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            animation: breathe 8s infinite ease-in-out;
+        }
+        .ring1 {
+            width: 340px;
+            height: 340px;
+            background: rgba(255,255,255,0.25);
+        }
+        .ring2 {
+            width: 280px;
+            height: 280px;
+            background: rgba(255,255,255,0.5);
+        }
+        @keyframes breathe {
+            0%   { transform: translate(-50%, -50%) scale(1); }
+            25%  { transform: translate(-50%, -50%) scale(1.13); }
+            50%  { transform: translate(-50%, -50%) scale(1); }
+            75%  { transform: translate(-50%, -50%) scale(1.13); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .text {
+            position: absolute;
+            top: 18%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 38px;
+            font-weight: bold;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            z-index: 2;
+        }
+        .text .seconds {
+            font-size: 22px;
+            font-weight: 400;
+            display: block;
+            margin-top: 2px;
+        }
+
+        .blink {
+            animation: blink 4s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0); }
+        }
+    </style>
+</head>
+<body>
+        <!-- Fixed Audio -->
+        <audio id="bgMusic" autoplay loop muted playsinline>
+                <source src="just-relax-11157.mp3" type="audio/mpeg">
+        </audio>
+        <div id="audioOverlay" style="position:fixed;z-index:9999;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);color:#fff;display:flex;align-items:center;justify-content:center;font-size:2rem;cursor:pointer;">
+            Click anywhere to start music
+        </div>
+
+    <div class="container">
+        <div class="sky">
+            <div class="cloud" style="top: 7%; left: 10%; width: 60px; height: 28px;"></div>
+            <div class="cloud" style="top: 18%; right: 12%; width: 44px; height: 18px;"></div>
+            <div class="cloud" style="bottom: 7%; left: 8%; width: 50px; height: 20px;"></div>
+            <div class="cloud" style="bottom: 3%; right: 10%; width: 60px; height: 28px;"></div>
+            <div class="star" style="top: 12%; left: 60%;"><svg viewBox="0 0 16 16"><polygon fill="#fff" points="8,0 10,6 16,6 11,10 13,16 8,12 3,16 5,10 0,6 6,6"/></svg></div>
+            <div class="star" style="top: 30%; left: 20%;"><svg viewBox="0 0 16 16"><polygon fill="#fff" points="8,0 10,6 16,6 11,10 13,16 8,12 3,16 5,10 0,6 6,6"/></svg></div>
+            <div class="star" style="top: 60%; right: 18%;"><svg viewBox="0 0 16 16"><polygon fill="#fff" points="8,0 10,6 16,6 11,10 13,16 8,12 3,16 5,10 0,6 6,6"/></svg></div>
+            <div class="star" style="top: 80%; left: 60%;"><svg viewBox="0 0 16 16"><polygon fill="#fff" points="8,0 10,6 16,6 11,10 13,16 8,12 3,16 5,10 0,6 6,6"/></svg></div>
+        </div>
+        <div class="text"><span class="main">Inhale</span><span class="seconds">4 seconds</span></div>
+        <div class="sun-area">
+            <div class="rings">
+                <div class="ring ring1"></div>
+                <div class="ring ring2"></div>
+            </div>
+            <svg id="cuteSun" width="220" height="220" viewBox="0 0 220 220" style="position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); z-index:2;">
+                <circle cx="110" cy="110" r="100" fill="#ffbe1a"/>
+                <!-- Cute face -->
+                <path d="M80 120 Q110 140 140 120" stroke="#f48c06" stroke-width="5" fill="none" stroke-linecap="round"/>
+                <path d="M95 110 Q100 105 105 110" stroke="#f48c06" stroke-width="4" fill="none" stroke-linecap="round"/>
+                <path d="M125 110 Q130 105 135 110" stroke="#f48c06" stroke-width="4" fill="none" stroke-linecap="round"/>
+            </svg>
+        </div>
+    </div>
+
+    <script>
+        let isInhale = true;
+        const mainText = document.querySelector('.text .main');
+        const sunArea = document.querySelector('.sun-area');
+        const bgMusic = document.getElementById('bgMusic');
+
+        // Unmute audio and hide overlay on first user interaction
+        const overlay = document.getElementById('audioOverlay');
+        function startMusic() {
+            bgMusic.muted = false;
+            bgMusic.volume = 1;
+            overlay.style.display = 'none';
+            // Try to play audio (required by some browsers)
+            const playPromise = bgMusic.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {});
+            }
+        }
+        overlay.addEventListener("click", startMusic, { once: true });
+        document.body.addEventListener("click", startMusic, { once: true });
+
+        // Fade music helper
+        function fadeAudio(audio, to, duration = 2000) {
+            const stepTime = 50;
+            const steps = duration / stepTime;
+            const from = audio.volume;
+            let currentStep = 0;
+            const step = (to - from) / steps;
+            clearInterval(audio._fadeInterval);
+            audio._fadeInterval = setInterval(() => {
+                currentStep++;
+                let newVol = audio.volume + step;
+                if ((step > 0 && newVol >= to) || (step < 0 && newVol <= to) || currentStep >= steps) {
+                    audio.volume = to;
+                    clearInterval(audio._fadeInterval);
+                } else {
+                    audio.volume = Math.max(0, Math.min(1, newVol));
+                }
+            }, stepTime);
+        }
+
+        function setTheme(inhale) {
+            if (inhale) {
+                document.body.style.background = 'linear-gradient(to bottom, #4fc3f7, #1976d2)';
+                mainText.textContent = 'Inhale';
+                fadeAudio(bgMusic, 1, 2000);
+            } else {
+                document.body.style.background = 'linear-gradient(to bottom, #a259c6, #6d4ab3)';
+                mainText.textContent = 'Exhale';
+                fadeAudio(bgMusic, 0.2, 2000);
+            }
+        }
+
+        // Initial state
+        setTheme(true);
+        sunArea.classList.add('up');
+        bgMusic.volume = 1;
+
+        setInterval(() => {
+            isInhale = !isInhale;
+            setTheme(isInhale);
+            sunArea.classList.toggle('up', isInhale);
+            sunArea.classList.toggle('down', !isInhale);
+        }, 8000);
+    </script>
+</body>
+</html>
